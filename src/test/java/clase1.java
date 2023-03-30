@@ -1,19 +1,9 @@
 import java.io.FileInputStream;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.openqa.selenium.Proxy;
-import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import java.io.IOException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -23,24 +13,31 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class clase1 {
     
+    @Before
+    public void Configuracion() {
+    	
+    }
+    
     @Test
     public void testLogin() throws InterruptedException {
+    	
+    	
+    	
+    	
+    	
         System.setProperty("webdriver.chrome.driver", "./src/test/resources//Driver/chromedriver.exe"); // Ruta al archivo chromedriver.exe
-    
-       
-   
-     
 
         WebDriver driver= new ChromeDriver();
     
     
         driver.get("https://bancaporinternetuat.interbank.pe/login"); // URL de la página de inicio de sesión
-        
-      
+       
         // Seleccionar los elementos necesarios para la prueba
         
         WebElement accountNumberField = driver.findElement(By.xpath("//input[@id='25']")); // Selector del campo de número de cuenta
@@ -113,9 +110,9 @@ public class clase1 {
             
             Thread.sleep(2000);
             Desplegable.click();
-            Thread.sleep(2000);
+            
             SeleDni.click();
-            Thread.sleep(2000);
+            Thread.sleep(100);
           
             dniField.sendKeys(dni);
             
@@ -133,23 +130,57 @@ public class clase1 {
             
             //Seleccionar Recordar
             Check.click();
-            Thread.sleep(1500);
+            Thread.sleep(2000);
             //login
             btnLogin.click();
-            Thread.sleep(20000);
+            System.out.print("Se envio la info esperando a que cargue la pagina");
+            Thread.sleep(10000);
+            System.out.print("buscando elemento");
             
-            //seleccionar elementos
-            WebElement Menu = driver.findElement(By.xpath("//a[@class='header__profile-menu']"));
+           
+         // Identifica el elemento del menú
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            
+            WebElement menu = driver.findElement(By.xpath("//a[@href='#']"));
+
+            // Espera hasta que el elemento sea visible y esté interactuable
+          
+            wait.until(ExpectedConditions.elementToBeClickable(menu));
+
+            menu.click();
+            
+            Thread.sleep(5000);
+            System.out.print("Boton menu:"+ menu);
+            
+           //detectamos elemento 
             WebElement Close = driver.findElement(By.xpath("//a[@href='javascript:void(0);'][contains(.,'Cerrar sesión')]"));
+            
+            Thread.sleep(2000);
             //cerrar session
-             Menu.isSelected();
-             Close.isSelected();
             
+             Close.click();
+             
+             System.out.print("cerrando sesion");
+             
+             WebElement limpiarNc = driver.findElement(By.xpath("(//i[contains(@class,'icon-appended--clickeable')])[1]"));
+          // Espera hasta que el elemento sea visible y esté interactuable
+             WebDriverWait waitlogin = new WebDriverWait(driver, 10);
+             wait.until(ExpectedConditions.elementToBeClickable(limpiarNc));
+             
+             
+             //limpiar
             
-            
+             limpiarNc.click(); 
+             
+             
         }
-        }
-        
+}
+    
+    
+    
+    
+    
+    
 }
 
     
